@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SalaryDataService } from '../services/salary-data.service';
 import { PagingService } from '../services/paging.service';
+import {SalaryStatisticsService} from '../services/salaryStatistics/salaryStatistics.service';
 
 @Component({
   selector: 'app-salary-data',
@@ -9,7 +10,7 @@ import { PagingService } from '../services/paging.service';
 })
 export class SalaryDataComponent implements OnInit {
 
-  constructor(public salaryDataService: SalaryDataService) { }
+  constructor(private salaryDataService: SalaryDataService, private salaryStatisticsService: SalaryStatisticsService) { }
 
   // Display properties
   public salaries: any;
@@ -17,7 +18,7 @@ export class SalaryDataComponent implements OnInit {
   public resultCount: number;
   public paging: any = {};
   public pagedRecords: any;
-  public agency = 'All';
+  public agency = 'defaultAgency';
   public salaryRange: string = 'defaultRange';
   public lowerLimit: number;
   public upperLimit: number;
@@ -27,6 +28,9 @@ export class SalaryDataComponent implements OnInit {
   public alertUser: boolean;
   public defaultRange: string = 'defaultRange';
   public defaultYear: string = 'defaultYear';
+  public meanSalary: any;
+  public medianSalary: any;
+  public rangeSalary: any;
 
   // Sort table
   public sortBy: string;
@@ -73,7 +77,7 @@ export class SalaryDataComponent implements OnInit {
     this.salaryDataService.getAllSalaryData()
       .subscribe(data => {
         this.salaries = data;
-
+        this.setSalaryStatistics();
 
         // Get total number of results
         this.resultCount = this.salaries.length;
@@ -88,7 +92,7 @@ export class SalaryDataComponent implements OnInit {
 
   //
   // Set chart type
-  public setChartType(type: string) {
+  public setChartType(type: string):void {
     this.graphType = type;
   }
 
@@ -124,7 +128,7 @@ export class SalaryDataComponent implements OnInit {
 
   //
   // Wrapper for salary bounds
-  public setSalaryRange(range: string): void {
+  public setSalaryRange(range: string):void {
     switch (range) {
       case '0-49':
         this.lowerLimit = 0; this.upperLimit = 49999;
@@ -145,8 +149,20 @@ export class SalaryDataComponent implements OnInit {
   }
 
   //
+  // Set view salary statistics
+  public setSalaryStatistics():void {
+    let salaries = [];
+
+    for (let i = 0; i < this.salaries.length; i++) salaries.push(this.salaries[i]['totalPayBenefits']);
+
+    this.meanSalary = this.salaryStatisticsService.getMean(salaries);
+    this.medianSalary = this.salaryStatisticsService.getMedian(salaries);
+    this.rangeSalary = this.salaryStatisticsService.getSalaryRange(salaries);
+  }
+
+  //
   // Set to first page on new filtered model
-  public setPage(page: number): void {
+  public setPage(page: number):void {
     if (page < 1 || page > this.paging.totalPages) {
       return;
     }
@@ -168,6 +184,7 @@ export class SalaryDataComponent implements OnInit {
     await this.salaryDataService.getAllSalaryData()
       .subscribe(data => {
         this.salaries = data;
+        this.setSalaryStatistics();
 
         if (this.sortBy !== null || this.sortBy !== undefined) { this.sortResults(this.sortBy, this.orderByAscending); }
 
@@ -196,6 +213,7 @@ export class SalaryDataComponent implements OnInit {
     await this.salaryDataService.getFilteredSalaryData(agency, this.lowerLimit, this.upperLimit, year)
       .subscribe(data => {
         this.salaries = data;
+        this.setSalaryStatistics();
 
         if (this.sortBy !== null || this.sortBy !== undefined) { this.sortResults(this.sortBy, this.orderByAscending); }
 
@@ -226,6 +244,7 @@ export class SalaryDataComponent implements OnInit {
     await this.salaryDataService.getSalaryDataByEmployeeName(employee)
       .subscribe(data => {
         this.salaries = data;
+        this.setSalaryStatistics();
 
         if (this.sortBy !== null || this.sortBy !== undefined) { this.sortResults(this.sortBy, this.orderByAscending); }
 
@@ -257,6 +276,7 @@ export class SalaryDataComponent implements OnInit {
     await this.salaryDataService.getSalaryDataByJobTitle(job)
       .subscribe(data => {
         this.salaries = data;
+        this.setSalaryStatistics();
 
         if (this.sortBy !== null || this.sortBy !== undefined) { this.sortResults(this.sortBy, this.orderByAscending); }
 
@@ -274,7 +294,7 @@ export class SalaryDataComponent implements OnInit {
 
   //
   // Clears and resets
-  public clearSalaryData(): void {
+  public clearSalaryData():void {
     this.useSpinner = false;
     this.salaries = null;
   }
@@ -286,14 +306,10 @@ export class SalaryDataComponent implements OnInit {
     await this.getSalaries();
   }
 
-  public resetFilters(): void {
+  public resetFilters():void {
     this.salaryRange = 'All';
     this.agency = 'All';
     this.year = 'All';
-
-    // $("#allYears").prop("checked", true);
-    // $("#allAgencies").prop("checked", true);
-    // $("#allSalaries").prop("checked", true);
   }
 
   //
@@ -310,7 +326,7 @@ export class SalaryDataComponent implements OnInit {
   }
 
   // Chart values
-  public setChartData(): void {
+  public setChartData():void {
     // Clear previous chart data
     this.chartDataSalaries = [];
     this.chartDataPayTypes = [];

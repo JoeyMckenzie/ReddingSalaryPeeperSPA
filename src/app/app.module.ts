@@ -14,7 +14,7 @@ import { NavComponent } from './nav/nav.component';
 
 // Services
 import { SalaryDataComponent } from './salary-data/salary-data.component';
-import {PagingService, SalaryDataService} from './services';
+import { PagingService, SalaryDataService, SalaryStatisticsService } from './services';
 
 
 @NgModule({
@@ -37,7 +37,8 @@ import {PagingService, SalaryDataService} from './services';
   ],
   providers: [
     PagingService,
-    SalaryDataService
+    SalaryDataService,
+    SalaryStatisticsService
   ],
   bootstrap: [AppComponent]
 })

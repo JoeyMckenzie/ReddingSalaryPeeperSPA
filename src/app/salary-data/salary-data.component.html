@@ -34,21 +34,34 @@
         </select>
       </div>
 
-      <!-- Agency toggle -->
+      <!-- Filter for agency -->
       <div class="form-group">
-        <div class="btn-group btn-group-toggle" data-toggle="buttons">
-          <label for="allAgencies"  (click)="setAgency('All')" class="btn btn-outline-primary active">
-            <input [(ngModel)]="agency" id="allAgencies" autocomplete="off" checked="checked" type="radio" value="All">All
-          </label>
-          <label for="cityOfRedding" (click)="setAgency('Redding')" class="btn btn-outline-primary">
-            <input [(ngModel)]="agency" name="agency" id="cityOfRedding"  autocomplete="off" type="radio" value="cityOfRedding">City of Redding
-          </label>
-          <label for="shastaCounty" (click)="setAgency('Shasta County')" class="btn btn-outline-primary">
-            <input [(ngModel)]="agency" name="agency" id="shastaCounty" autocomplete="off" type="radio" value="shastaCounty">Shasta County
-          </label>
-        </div>
+        <label for="agencyName"><strong>Agency</strong></label>
+        <select autocomplete="off" [(ngModel)]="agency" (change)="getFilteredSalaries(agency, salaryRange, year)" id="agencyName" class="custom-select">
+          <option disabled selected value="defaultAgency">Search by agency</option>
+          <option value="All">All agencies</option>
+          <option value="Redding">City of Redding</option>
+          <option value="Shasta County">Shasta County</option>
+        </select>
       </div>
-      <div class="btn-group">
+
+      <!-- Agency toggle -->
+      <!--<div class="form-group">-->
+        <!--<div class="btn-group btn-group-toggle" data-toggle="buttons">-->
+          <!--<label for="allAgencies"  (click)="setAgency('All')" class="btn btn-outline-primary active">-->
+            <!--<input [(ngModel)]="agency" id="allAgencies" autocomplete="off" checked="checked" type="radio" value="All">All-->
+          <!--</label>-->
+          <!--<label for="cityOfRedding" (click)="setAgency('Redding')" class="btn btn-outline-primary">-->
+            <!--<input [(ngModel)]="agency" name="agency" id="cityOfRedding"  autocomplete="off" type="radio" value="cityOfRedding">City of Redding-->
+          <!--</label>-->
+          <!--<label for="shastaCounty" (click)="setAgency('Shasta County')" class="btn btn-outline-primary">-->
+            <!--<input [(ngModel)]="agency" name="agency" id="shastaCounty" autocomplete="off" type="radio" value="shastaCounty">Shasta County-->
+          <!--</label>-->
+        <!--</div>-->
+      <!--</div>-->
+
+      <!-- Reset fields -->
+      <div class="form-group">
         <input type="button" class="btn btn-info" (click)="clearSort()" value="Clear Sorted Data"/>
       </div>
     </div>
@@ -102,8 +115,28 @@
 </div>
 
 
-<!-- Pisplay results -->
+<!-- Display results -->
+<br/>
 <div *ngIf="salaries && resultCount !== 0">
+  <!-- Salary Statistics -->
+  <h4 class="text-center">Salary Statistics (excluding zero-value salaries)</h4>
+  <hr/>
+  <div class="row text-center">
+    <div class="col-sm-4">
+      <h5>Mean Salary</h5>
+      <p>{{ meanSalary | currency }}</p>
+    </div>
+    <div class="col-sm-4">
+      <h5>Median Salary</h5>
+      <p>{{ medianSalary | currency }}</p>
+    </div>
+    <div class="col-sm-4">
+      <h5>Salary Range</h5>
+      <p>{{ rangeSalary | currency }}</p>
+    </div>
+  </div>
+
+  <!-- Display graph and graph type toggle -->
   <chart [type]="graphType" [data]="data" [options]="options"></chart>
   <div class="form-group text-center">
     <div class="btn-group btn-group-toggle" data-toggle="buttons">
