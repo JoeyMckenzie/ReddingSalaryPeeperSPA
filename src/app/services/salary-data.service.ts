@@ -20,7 +20,7 @@ export class SalaryDataService {
   }
 
   getFilteredSalaryData(agency: string,  lowerLimit?: number, upperLimit?: number,  year?: string) {
-    let route = BASEURL + 'api/salary/' + agency;
+    let route = BASEURL + 'api/salary/' + (agency === 'defaultAgency' ? 'All' : agency);
 
     if (lowerLimit !== null) {
       route = route + '/' + lowerLimit.toString() + '/' + upperLimit.toString();
@@ -30,7 +30,7 @@ export class SalaryDataService {
       route = route + '/' + year;
     }
 
-    console.log(route);
+    // console.log(route);
 
     return this.http.get<SalaryRecord[]>(route, httpOptions);
   }

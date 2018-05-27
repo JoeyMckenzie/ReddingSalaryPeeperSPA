@@ -307,9 +307,9 @@ export class SalaryDataComponent implements OnInit {
   }
 
   public resetFilters():void {
-    this.salaryRange = 'All';
-    this.agency = 'All';
-    this.year = 'All';
+    this.salaryRange = 'defaultRange';
+    this.agency = 'defaultAgency';
+    this.year = 'defaultYear';
   }
 
   //
