@@ -1,6 +1,7 @@
-# SalaryPeeker.SPA
+# Redding Salary Peeker SPA
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.4.
+This is the frontend Angular 2+ project for Redding Salary Peeker. Clone the repo and run locally if you are interested in making any changes (I accept pull requests)!
+If you're new to Angular, follow below to get up and running on your dev machine.
 
 ## Development server
 
