@@ -5,8 +5,7 @@ const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
-// const BASEURL = 'https://reddingsalarypeeker-api.azurewebsites.net/';
-const BASEURL = 'https://localhost:5001/';
+const BASEURL = 'https://reddingsalarypeeker-api.azurewebsites.net/';
 
 @Injectable()
 export class SalaryDataService {
