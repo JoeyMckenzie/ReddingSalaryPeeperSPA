@@ -15,6 +15,7 @@ import { NavComponent } from './nav/nav.component';
 // Services
 import { SalaryDataComponent } from './salary-data/salary-data.component';
 import { PagingService, SalaryDataService, SalaryStatisticsService } from './services';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 
 @NgModule({
@@ -33,13 +34,13 @@ import { PagingService, SalaryDataService, SalaryStatisticsService } from './ser
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'salary-data', component: SalaryDataComponent },
-      { path: '**', redirectTo: ''}
     ])
   ],
   providers: [
     PagingService,
     SalaryDataService,
-    SalaryStatisticsService
+    SalaryStatisticsService,
+    [{provide: LocationStrategy, useClass: HashLocationStrategy}]
   ],
   bootstrap: [AppComponent]
 })
