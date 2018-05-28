@@ -33,6 +33,7 @@ import { PagingService, SalaryDataService, SalaryStatisticsService } from './ser
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'salary-data', component: SalaryDataComponent },
+      { path: '**', redirectTo: ''}
     ])
   ],
   providers: [
