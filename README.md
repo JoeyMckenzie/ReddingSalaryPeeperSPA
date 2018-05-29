@@ -3,26 +3,4 @@
 This is the frontend Angular 2+ project for Redding Salary Peeker. Clone the repo and run locally if you are interested in making any changes (I accept pull requests)!
 If you're new to Angular, follow below to get up and running on your dev machine.
 
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Click [here](https://github.com/joey32793/ReddingSalaryPeeperAPI) to view the repository for the Redding Salary Peeper API (ASP.NET Core 2.1 webapi).
